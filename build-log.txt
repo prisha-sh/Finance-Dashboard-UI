@@ -1,0 +1,13 @@
+﻿
+> zorvyn@0.0.0 build
+> vite build
+
+[36mvite v8.0.3 [32mbuilding client environment for production...[36m[39m
+[2K
+transforming...Ô£ô 2596 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.74 kB Ôöé gzip:   0.41 kB
+dist/assets/index-CpgHgdPI.css   39.33 kB Ôöé gzip:   6.99 kB
+dist/assets/index-y-dQ7cY8.js   618.92 kB Ôöé gzip: 182.81 kB
+

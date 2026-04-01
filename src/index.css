@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  --color-brand-50: #f0fdfa;
+  --color-brand-100: #ccfbf1;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #0d9488;
+  --color-brand-900: #134e4a;
+  
+  --color-surface-50: #ffffff;
+  --color-surface-100: #f8fafc;
+  --color-surface-200: #f1f5f9;
+  --color-surface-800: #1e293b;
+  --color-surface-850: #111827;
+  --color-surface-900: #0f172a;
+  --color-surface-950: #020617;
+  
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+}
+
+@layer base {
+  :root {
+    --bg-main: #f8fafc;
+    --bg-card: rgba(255, 255, 255, 0.7);
+    --text-primary: var(--color-surface-900);
+    --text-secondary: #475569;
+    --border-color: rgba(226, 232, 240, 0.8);
+    --card-glow: 0px 10px 40px -10px rgba(0,0,0,0.05);
+    --bg-gradient-1: #e0e7ff;
+    --bg-gradient-2: #ccfbf1;
+  }
+
+  .dark {
+    --bg-main: var(--color-surface-950);
+    --bg-card: rgba(15, 23, 42, 0.65);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-color: rgba(51, 65, 85, 0.6);
+    --card-glow: 0px 10px 40px -10px rgba(0,0,0,0.5);
+    --bg-gradient-1: #1e1b4b;
+    --bg-gradient-2: #042f2e;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    position: relative;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  
+  .glass-card {
+    background-color: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-glow);
+  }
+
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
