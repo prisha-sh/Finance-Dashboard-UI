@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useStore } from '../store/useStore';
+import { useFilteredTransactions } from '../hooks/useFilteredTransactions';
 import { formatDate, formatCurrency, getCategoryIcon } from '../utils/helpers';
 import { Search, Trash2, ArrowUpDown, Plus, X, FilterX, Download } from 'lucide-react';
 import clsx from 'clsx';
@@ -8,16 +9,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 
 export default function TransactionsTable() {
-  const { 
-    transactions, 
-    role, 
-    deleteTransaction, 
+  const {
+    role,
+    deleteTransaction,
     restoreTransaction,
-    globalSearch, 
+    globalSearch,
     setGlobalSearch,
-    globalCategory, 
-    setGlobalCategory 
+    globalCategory,
+    setGlobalCategory,
   } = useStore();
+  const transactions = useFilteredTransactions();
   
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filterType, setFilterType] = useState('All');
@@ -166,7 +167,7 @@ export default function TransactionsTable() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4, duration: 0.5, type: 'spring' }}
-      className="mt-12 mb-24 glass-card rounded-[2rem] p-6 sm:p-8 transition-shadow duration-300 relative"
+      className="relative mt-12 mb-16 glass-card rounded-[2rem] p-6 transition-shadow duration-300 sm:mb-20 sm:p-8 lg:mb-12"
     >
       <div className="mb-8 flex flex-col space-y-6 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
         <div>
@@ -392,7 +393,7 @@ export default function TransactionsTable() {
                           </div>
                           <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">No transactions found</h4>
                           <p className="text-sm font-medium text-[var(--text-secondary)] text-center leading-relaxed">
-                            We couldn't find anything matching your current filters.
+                            We could not find anything matching your current filters.
                           </p>
                           <button onClick={clearFilters} className="mt-6 text-brand-600 font-bold hover:underline hover:text-brand-500 dark:text-brand-400">
                             Clear Filters
@@ -466,7 +467,7 @@ export default function TransactionsTable() {
                   </div>
                   <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">No transactions found</h4>
                   <p className="text-sm font-medium text-[var(--text-secondary)] text-center leading-relaxed">
-                    We couldn't find anything matching your current filters.
+                    We could not find anything matching your current filters.
                   </p>
                   <button onClick={clearFilters} className="mt-6 text-brand-600 font-bold hover:underline hover:text-brand-500 dark:text-brand-400">
                     Clear Filters
@@ -485,11 +486,11 @@ export default function TransactionsTable() {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
-            className="fixed bottom-8 right-8 z-40 lg:bottom-12 lg:right-12"
+            className="fixed bottom-8 left-8 z-40 lg:bottom-10 lg:left-auto lg:right-[calc(min(420px,32vw)+1.5rem)]"
           >
             <button
               onClick={() => setIsModalOpen(true)}
-              className="group flex h-16 w-16 items-center justify-center rounded-full bg-brand-600 text-white shadow-[0_0_40px_-5px_var(--color-brand-500)] hover:bg-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/30 transition-all hover:scale-110 active:scale-95"
+              className="group flex h-16 w-16 items-center justify-center rounded-full border-2 border-[var(--accent-lime)] bg-[var(--header-bar)] text-[var(--accent-lime)] shadow-[0_0_40px_-8px_rgba(223,255,0,0.35)] transition-all hover:scale-110 hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-[var(--accent-lime)]/30 active:scale-95"
             >
               <Plus className="h-8 w-8 transition-transform group-hover:rotate-90" />
             </button>
