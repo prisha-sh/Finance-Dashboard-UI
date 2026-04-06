@@ -1,11 +1,12 @@
 import React from 'react';
 import { useStore } from '../store/useStore';
+import { useFilteredTransactions } from '../hooks/useFilteredTransactions';
 import { TrendingUp, TrendingDown, Target, Zap } from 'lucide-react';
 import { formatCurrency } from '../utils/helpers';
 import { motion } from 'framer-motion';
 
 export default function Insights() {
-  const transactions = useStore((state) => state.transactions);
+  const transactions = useFilteredTransactions();
 
   const insights = React.useMemo(() => {
     if (transactions.length === 0) return null;

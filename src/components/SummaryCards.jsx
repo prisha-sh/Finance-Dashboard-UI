@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useRef } from 'react';
-import { useStore } from '../store/useStore';
+import { useFilteredTransactions } from '../hooks/useFilteredTransactions';
 import { calculateTotals, formatCurrency } from '../utils/helpers';
 import { ArrowUpRight, ArrowDownRight, Wallet, Flame } from 'lucide-react';
 import { motion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion';
@@ -109,7 +109,7 @@ const InteractiveBalanceCard = ({ balance }) => {
 };
 
 export default function SummaryCards() {
-  const transactions = useStore((state) => state.transactions);
+  const transactions = useFilteredTransactions();
 
   const { income, expense, balance } = useMemo(
     () => calculateTotals(transactions),

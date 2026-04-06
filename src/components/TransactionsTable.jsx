@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useStore } from '../store/useStore';
+import { useFilteredTransactions } from '../hooks/useFilteredTransactions';
 import { formatDate, formatCurrency, getCategoryIcon } from '../utils/helpers';
 import { Search, Trash2, ArrowUpDown, Plus, X, FilterX, Download } from 'lucide-react';
 import clsx from 'clsx';
@@ -8,16 +9,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 
 export default function TransactionsTable() {
-  const { 
-    transactions, 
-    role, 
-    deleteTransaction, 
+  const {
+    role,
+    deleteTransaction,
     restoreTransaction,
-    globalSearch, 
+    globalSearch,
     setGlobalSearch,
-    globalCategory, 
-    setGlobalCategory 
+    globalCategory,
+    setGlobalCategory,
   } = useStore();
+  const transactions = useFilteredTransactions();
   
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filterType, setFilterType] = useState('All');
@@ -166,7 +167,7 @@ export default function TransactionsTable() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4, duration: 0.5, type: 'spring' }}
-      className="mt-12 mb-24 glass-card rounded-[2rem] p-6 sm:p-8 transition-shadow duration-300 relative"
+      className="relative mt-12 mb-16 glass-card rounded-[2rem] p-6 transition-shadow duration-300 sm:mb-20 sm:p-8 lg:mb-12"
     >
       <div className="mb-8 flex flex-col space-y-6 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
         <div>
@@ -485,7 +486,7 @@ export default function TransactionsTable() {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
-            className="fixed bottom-8 right-8 z-40 lg:bottom-12 lg:right-12"
+            className="fixed bottom-8 left-8 z-40 lg:bottom-10 lg:left-auto lg:right-[calc(min(420px,32vw)+1.5rem)]"
           >
             <button
               onClick={() => setIsModalOpen(true)}

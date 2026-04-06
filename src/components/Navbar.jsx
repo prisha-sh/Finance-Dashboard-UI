@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react';
 import { useStore } from '../store/useStore';
-import { Moon, Sun, Shield, ShieldAlert } from 'lucide-react';
+import { useFilteredTransactions } from '../hooks/useFilteredTransactions';
+import { Moon, Sun, Shield, ShieldAlert, Search, X } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { calculateTotals, formatCurrency } from '../utils/helpers';
 import { isToday, parseISO } from 'date-fns';
 
 export default function Navbar() {
-  const { role, setRole, isDarkMode, toggleDarkMode } = useStore();
-  const transactions = useStore((state) => state.transactions);
+  const { role, setRole, isDarkMode, toggleDarkMode, globalSearch, setGlobalSearch } = useStore();
+  const transactions = useFilteredTransactions();
 
   const { netLiq, dailyPnL, rangePct } = useMemo(() => {
     const { balance } = calculateTotals(transactions);
@@ -32,15 +33,39 @@ export default function Navbar() {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: 'spring', damping: 22 }}
-      className="sticky top-0 z-50 flex min-h-[4.5rem] flex-wrap items-center justify-between gap-4 border-b border-[var(--border-color)] bg-[var(--bg-main)]/85 px-4 py-3 backdrop-blur-xl lg:px-8"
+      className="sticky top-0 z-50 flex min-h-[4.5rem] flex-col gap-3 border-b border-[var(--border-color)] bg-[var(--bg-main)]/85 px-4 py-3 backdrop-blur-xl sm:flex-row sm:flex-wrap sm:items-center sm:justify-between lg:flex-nowrap lg:gap-6 lg:px-8"
     >
-      <div className="flex items-center gap-3 lg:hidden">
-        <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[var(--accent-lime)] text-[var(--ink)]">
-          <span className="text-sm font-black">Z</span>
+      <div className="flex min-w-0 flex-1 items-center gap-3 lg:max-w-xl">
+        <div className="flex shrink-0 items-center gap-3 lg:hidden">
+          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[var(--accent-lime)] text-[var(--ink)]">
+            <span className="text-sm font-black">Z</span>
+          </div>
+          <span className="text-lg font-black tracking-tight">FinDash</span>
         </div>
-        <span className="text-lg font-black tracking-tight">FinDash</span>
+        <div className="relative min-w-0 flex-1">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-secondary)]" />
+          <input
+            type="search"
+            value={globalSearch}
+            onChange={(e) => setGlobalSearch(e.target.value)}
+            placeholder="Type client, title, or category…"
+            className="w-full rounded-full border border-[var(--border-color)] bg-[var(--bg-panel)] py-2.5 pl-10 pr-10 text-sm font-medium text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:border-[var(--accent-lime)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-lime)]/20"
+            aria-label="Search transactions"
+          />
+          {globalSearch ? (
+            <button
+              type="button"
+              onClick={() => setGlobalSearch('')}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-[var(--text-secondary)] hover:bg-[var(--bg-main)] hover:text-[var(--text-primary)]"
+              aria-label="Clear search"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          ) : null}
+        </div>
       </div>
-      <div className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-4 sm:gap-8 lg:flex-nowrap">
+
+      <div className="flex min-w-0 flex-wrap items-center justify-end gap-4 sm:gap-6 lg:flex-nowrap">
         <div className="flex min-w-[140px] flex-col gap-1">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-secondary)]">
             Range

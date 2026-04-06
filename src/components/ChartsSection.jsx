@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useStore } from '../store/useStore';
+import { useFilteredTransactions } from '../hooks/useFilteredTransactions';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   PieChart, Pie, Cell, Sector 
@@ -88,7 +88,7 @@ const renderActiveShape = (props) => {
 };
 
 export default function ChartsSection() {
-  const transactions = useStore((state) => state.transactions);
+  const transactions = useFilteredTransactions();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { areaData, pieData, totalExpense } = useMemo(() => {

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useStore } from '../store/useStore';
+import { useFilteredTransactions } from '../hooks/useFilteredTransactions';
 import D3ActivityRadial from './d3/D3ActivityRadial';
 import D3IsoStackedBars from './d3/D3IsoStackedBars';
 import { formatCurrency } from '../utils/helpers';
@@ -7,7 +7,7 @@ import { formatCurrency } from '../utils/helpers';
 const PLACEHOLDER_LOGOS = ['NVDA', 'SIE', 'MSFT', 'AAPL', 'V', 'JPM'];
 
 export default function FinanceHeroCharts() {
-  const transactions = useStore((state) => state.transactions);
+  const transactions = useFilteredTransactions();
 
   const { radialPercent, radialSegments, isoBars } = useMemo(() => {
     const income = transactions
